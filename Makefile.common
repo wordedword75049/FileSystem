@@ -1,0 +1,46 @@
+# Note: this Makefile is strange - in one mode, it invokes the kernel's
+# Makefile which invokes this Makefile again with a different target. Do not
+# meddle without proper thinking, except with the Configurable section.
+
+##################################################
+# Configurable section.
+
+# where are the kernel sources to build against.
+KSRC=/local1/kernel-2.4.18/linux-uml
+# define this to '1' only for compilation under a UML kernel.
+USE_UML=0
+
+# module-specific CFLAGS.
+EXTRA_CFLAGS=-DSTAMFS_MODULE_DEBUG
+
+#########################################
+# don't touch anything below this point.
+THIS_DIR=$(shell pwd)
+
+ifeq ($(USE_UML),1)
+KERNEL_ARCH=ARCH=um
+endif
+
+# top-level rule - change into the kernel's top directory, and use its Makefile
+# to compile this module.
+all:
+	(cd $(KSRC) && \
+	$(MAKE) SUBDIRS=$(THIS_DIR) modules \
+	$(KERNEL_ARCH) CC=$(CC)) \
+	|| exit 1 ;
+
+obj-y := $(MODULE_OBJECTS)
+obj-m := $(O_TARGET)
+O_OBJS := $(obj-y)
+M_OBJS := $(O_TARGET)
+
+# these variables are mandatory for importing the kernel's Rules.make file,
+# which contains all the rules needed to build modules.
+TOPDIR := $(KSRC)
+CONFIG_SHELL := TOPDIR=$(KSRC) /bin/bash
+include $(KSRC)/Rules.make
+
+# there is no rule in the kernel source's makefile to clean a single module's
+# files (in a single directory).
+clean:	
+	/bin/rm -f *.o ./.*.o.flags ./.*.o.cmd
