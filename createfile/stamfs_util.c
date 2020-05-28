@@ -1,13 +1,3 @@
-/* This file is part of syscalltrack, a GNU/Linux kernel module and */
-/* user space utilities for logging or modifying any system call    */
-/* invocation.                                                      */
-/*                                                                  */
-/* Copyright (C) 2000-2002 guy keren, choo@actcom.co.il             */
-/* License: GNU General Public License                              */
-
-/*
- * $Id: util.c,v 1.3 2002/09/09 01:24:06 mulix Exp $
- */
 
 #include <linux/kernel.h>
 #include <linux/slab.h>
