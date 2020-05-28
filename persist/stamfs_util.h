@@ -1,13 +1,3 @@
-/* This file is part of snmpfs, a GNU/Linux kernel module that */
-/* implements a file-system for accessing STAM devices.        */
-/*                                                             */
-/* Copyright (C) 2004 guy keren, choo@actcom.co.il             */
-/* License: GNU General Public License                         */
-
-/*
- *$Id$
- */
-
 #ifndef STAMFS_UTIL_H_
 #define STAMFS_UTIL_H_
 
